@@ -2,10 +2,10 @@
 
 // #define SERVER_ADDR "http://openapi.xfyun.cn/v2/aiui"
 #define SERVER_ADDR "openapi.xfyun.cn"
-#define AIUI_APPID "5d2f27d2"
-#define AIUI_API_KEY "a605c4712faefae730cc84b62c0eb92f"
+#define AIUI_APPID "5d4a580f"
+#define AIUI_API_KEY "3d5cb9b3c529cd6aabaf1e058b27cd19"
 #define AIUI_AUE "raw"
-#define AIUI_AUTH_ID "27853aa9684eb19789b784a89ea5befd"
+#define AIUI_AUTH_ID "5e8992e86971ad00260bcc5a6b8c1a14"
 #define AIUI_DATA_TYPE "audio"
 #define AIUI_SAMPLE_RATE "16000"
 #define AIUI_SCENE "main_box"
@@ -329,6 +329,11 @@ int AIUI_Audio2Text(const unsigned char* pcPcmBuffer, int nLen)
     read(fd, pcRecvBuffer, sizeof(pcRecvBuffer));
     close(fd);
     printf("\nrecv buffer:\n:%s\n", pcRecvBuffer);
+
+    char pcText[4096];
+    AIUI_GetResult(pcRecvBuffer, pcText, sizeof(pcText));
+    printf("\nrecv text:\n:%s\n", pcText);
+
     return 0;
 }
 
@@ -340,7 +345,7 @@ int AIUI_GetResult(const char* pcSrcBuffer, unsigned char* pcText, int nLen)
     char *pN = (char *)pcSrcBuffer;
     if (strstr((char *)pcSrcBuffer, "HTTP/1.1 200 OK\r\n") != NULL)
     {
-        while (strstr(pN, "\"result_id\":1"))
+        while (strstr(pN, "\"result_id\":"))
         {
             pT = strstr(pN, "\"text\":");
             pS = strstr(pT, ":\"");
