@@ -1,3 +1,4 @@
+#include "tinycap.h"
 #include "asr.h"
 
 static int Read_File(const char *pszPathname, unsigned char **ppBuffer, int *pnLen)
@@ -37,15 +38,22 @@ static int Read_File(const char *pszPathname, unsigned char **ppBuffer, int *pnL
         free(*ppBuffer);
         *ppBuffer = NULL;
     }
+
+    // int fdw = open("write.pcm", O_CREAT | O_TRUNC | O_WRONLY, 0666);
+    // write(fdw, *ppBuffer, *pnLen);
+    // close(fdw);
+
     return nRet;
 }
 
-int main(int argc, char *argv)
+int main(int argc, char *argv[])
 {
     int nLen;
     unsigned char *pcRecvBuffer = NULL;
-    
-    int nError = Read_File("./demo.pcm", &pcRecvBuffer, &nLen);
+
+    tinycap(argc, argv);
+
+    int nError = Read_File(argv[1], &pcRecvBuffer, &nLen);
     if (!nError) AIUI_Audio2Text(pcRecvBuffer, nLen);
 
     if (pcRecvBuffer) free(pcRecvBuffer);

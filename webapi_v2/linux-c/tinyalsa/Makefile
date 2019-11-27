@@ -1,10 +1,10 @@
-SRCS=$(wildcard *.c tinyalsa/*.c)
+SRCS=$(wildcard *.c)
 OBJS=$(patsubst %.c, %.o, $(SRCS))
 HEADS=$(wildcard *.h)
 CC=gcc
-CFLAGS=-g -I./tinyalsa -I./tinyalsa/include
+CFLAGS=-g -I./include
 LDFLAGS=
-TARGET=aiui_demo
+TARGET=mytinyalsa
 $(TARGET):$(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
@@ -12,4 +12,4 @@ $(TARGET):$(OBJS)
 	$(CC) -c $< -o $@ $(CFLAGS) 
 
 clean:
-	rm -rf $(OBJS) $(TARGET)
+	rm -rf *.o $(TARGET)
